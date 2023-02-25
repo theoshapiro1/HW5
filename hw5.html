@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8">
+<title>Homework 2</title>
+<style>
+.grid {
+    width:1000px
+    overflow:hidden;
+    /* display:grid; */
+    /* grid-template-columns: auto auto auto; */
+}
+.square {
+    height: 100px;
+    width: 100px;
+    padding: 3px;
+    background-color: rgb(250, 247, 247);
+    border: 1px solid black;
+    float: left;
+
+}
+.button {
+    padding: 100px 100px;
+    color: white;
+    font-size: large;
+    text-align: center;
+}
+
+</style>
+</head>
+<body>
+    <input type="text" id="fname" name="fname"><br><br>
+    <script>
+       xTurn = false;
+       yTurn = false;
+
+        winners = [
+            [1,2,3], [1,5,9], [1,4,7], [2,5,8], [3,5,7], [3,6,9], [4,5,6], [7,8,9]
+        ]
+
+
+       if (Math.random() < .5) {
+            document.getElementById('fname').value="It is X's Turn"
+            xTurn = true;
+       } else {
+            document.getElementById('fname').value="It is Y's Turn"
+            yTurn = true;
+       }
+
+
+       function run(btnNum) {
+        if (xTurn) {
+            document.getElementById(btnNum).value="X"
+            for (i = 0; i < 8; i++) {
+                if (document.getElementById('btn'+winners[i][0]).value == "X" && document.getElementById('btn'+winners[i][1]).value == "X" && document.getElementById('btn'+winners[i][2]).value == "X") {
+                    alert("X has won!")
+                }
+            }
+            document.getElementById('fname').value="It is O's Turn"
+            yTurn = true;
+            xTurn = false;
+        } else {
+            document.getElementById(btnNum).value="O"
+            for (i = 0; i < 8; i++) {
+                if (document.getElementById('btn'+winners[i][0]).value == "O" && document.getElementById('btn'+winners[i][1]).value == "O" && document.getElementById('btn'+winners[i][2]).value == "O") {
+                    alert("O has won!")
+                }
+            }
+            document.getElementById('fname').value="It is X's Turn"
+            xTurn = true;
+            yTurn = false;
+        }
+       }
+    
+
+
+       //help from Grace
+
+
+
+    </script>
+
+    <div id="grid"></div>
+    <script>
+        grid = document.getElementById("grid");
+        for(i = 1; i < 10; i++) {
+        
+            if (i %3 == 0) {
+                grid.innerHTML += "<div class = square id ='" + i + "'>" + "<input type = 'button' value = ' ' id='btn" + i + "' onclick='run(id)'>" + i + "</div>" + "<br />" + "<br />" + "<br />" + "<br />" + "<br />" + "<br />";
+            } else {
+                grid.innerHTML += "<div class = square id ='" + i + "'>" + "<input type = 'button' value = ' ' id='btn" + i + "' onclick='run(id)'>" + i + "</div>";
+            }
+
+        }
+
+      </script>
+</body>
+
+</html>
