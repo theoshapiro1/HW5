@@ -21,14 +21,18 @@
 }
 .button {
     padding: 100px 100px;
-    color: white;
+    color: rgb(9, 9, 9);
     font-size: large;
+    text-align: center;
+}
+h1 {
     text-align: center;
 }
 
 </style>
 </head>
 <body>
+    <h1>Let's Play Tic Tac Toe!</h1>
     <input type="text" id="fname" name="fname"><br><br>
     <script>
        xTurn = false;
@@ -43,17 +47,45 @@
             document.getElementById('fname').value="It is X's Turn"
             xTurn = true;
        } else {
-            document.getElementById('fname').value="It is Y's Turn"
+            document.getElementById('fname').value="It is O's Turn"
             yTurn = true;
        }
+       
+       function reset() {
+        for (i = 1; i < 10; i++) {
+            document.getElementById('btn'+i).value=' ';
+            document.getElementById('btn'+i).disabled = false;
+        }
+       }
+       
+        function disableButton(btnNum) {
+            document.getElementById(btnNum).disabled = true;
+        }
 
+        function checkStailmate() {
+            done = true;
+            for (q = 1; q < 10; q++) {
+                if (document.getElementById('btn'+q).value == ' ') {
+                    done = false;
+                }
+            }
+            if (done == true) {
+                alert("Stailmate!")
+            }
+            return done
+        }
 
        function run(btnNum) {
         if (xTurn) {
             document.getElementById(btnNum).value="X"
+            disableButton(btnNum);
             for (i = 0; i < 8; i++) {
                 if (document.getElementById('btn'+winners[i][0]).value == "X" && document.getElementById('btn'+winners[i][1]).value == "X" && document.getElementById('btn'+winners[i][2]).value == "X") {
                     alert("X has won!")
+                } else {
+                    if (checkStailmate()) {
+                        break;
+                    }
                 }
             }
             document.getElementById('fname').value="It is O's Turn"
@@ -61,22 +93,22 @@
             xTurn = false;
         } else {
             document.getElementById(btnNum).value="O"
+            disableButton(btnNum);
             for (i = 0; i < 8; i++) {
                 if (document.getElementById('btn'+winners[i][0]).value == "O" && document.getElementById('btn'+winners[i][1]).value == "O" && document.getElementById('btn'+winners[i][2]).value == "O") {
                     alert("O has won!")
+                } else {
+                    if (checkStailmate()) {
+                        break;
+                    }
                 }
+                
             }
             document.getElementById('fname').value="It is X's Turn"
             xTurn = true;
             yTurn = false;
         }
        }
-    
-
-
-       //help from Grace
-
-
 
     </script>
 
@@ -84,7 +116,6 @@
     <script>
         grid = document.getElementById("grid");
         for(i = 1; i < 10; i++) {
-        
             if (i %3 == 0) {
                 grid.innerHTML += "<div class = square id ='" + i + "'>" + "<input type = 'button' value = ' ' id='btn" + i + "' onclick='run(id)'>" + i + "</div>" + "<br />" + "<br />" + "<br />" + "<br />" + "<br />" + "<br />";
             } else {
@@ -94,6 +125,7 @@
         }
 
       </script>
+      <input type="button" id="reset" value="reset" onclick='reset()'><br><br>
 </body>
 
 </html>
